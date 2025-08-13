@@ -1,4 +1,3 @@
-#' @export
 FUN_logPL <- function(THETA, X, Y, LINK, DICT1, DICT2) {
   cpp_llikFullPool2D(
     Y = Y,
@@ -11,7 +10,6 @@ FUN_logPL <- function(THETA, X, Y, LINK, DICT1, DICT2) {
   )
 }
 
-#' @export
 FUN_grlogPL <- function(THETA, X, Y, LINK, DICT1, DICT2) {
   cpp_grllFullPool2D(
     Y = Y,
@@ -24,6 +22,17 @@ FUN_grlogPL <- function(THETA, X, Y, LINK, DICT1, DICT2) {
   )
 }
 
+#' Compute full Pairwise likelihood
+#'
+#' @param Y Response vector
+#' @param X Design matrix
+#' @param F1 Row factor vector
+#' @param F2 Column factor vector
+#' @param MODEL Choose among "probit", "logit" and "ordprobit"
+#' @param START Starting vector for model parameters
+#'
+#' @return fitted model
+#'
 #' @export
 fullPL <- function(
   Y,
