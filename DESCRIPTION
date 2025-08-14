@@ -18,3 +18,5 @@ LinkingTo:
 Imports: 
     Rcpp,
     RcppEigen
+URL: https://github.com/giuseppealfonzetti/SPL
+BugReports: https://github.com/giuseppealfonzetti/SPL/issues
