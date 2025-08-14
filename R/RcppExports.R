@@ -9,6 +9,12 @@ cpp_grllFullPool2D <- function(Y, X, DICT1, DICT2, THETA, LINK, NCAT = 2L) {
     .Call(`_SPL_cpp_grllFullPool2D`, Y, X, DICT1, DICT2, THETA, LINK, NCAT)
 }
 
+#' Stochastic approximator
+#' @export
+cpp_SA2 <- function(Y, X, LINK, DICT1, DICT2, START, STEP0, STEP1 = 1, STEP2 = 1e-20, STEP3 = .75, SCHEDULE = 2L, UPDATE = 0L, SWITCH = 0L, AD1 = .9, AD2 = .999, PAIRS_PER_ITERATION = 8L, BURNE = 2L, MAXE = 4L, ISH = TRUE, UPE = 1e5L, SEED = 123L, VERBOSE = 1L, NCAT = 2L) {
+    .Call(`_SPL_cpp_SA2`, Y, X, LINK, DICT1, DICT2, START, STEP0, STEP1, STEP2, STEP3, SCHEDULE, UPDATE, SWITCH, AD1, AD2, PAIRS_PER_ITERATION, BURNE, MAXE, ISH, UPE, SEED, VERBOSE, NCAT)
+}
+
 cpp_get_dict <- function(LIST, NPAIRS) {
     .Call(`_SPL_cpp_get_dict`, LIST, NPAIRS)
 }

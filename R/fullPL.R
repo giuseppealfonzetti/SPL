@@ -40,10 +40,20 @@ fullPL <- function(
   F1,
   F2,
   MODEL = c("probit", "logit", "ordprobit"),
-  START
+  START,
+  VERBOSE = 0
 ) {
   MODEL <- match.arg(MODEL)
   list_dict <- get_list_ind_dict(F1, F2)
+  if (VERBOSE > 0) {
+    cat(
+      "Pairs F1:",
+      nrow(list_dict$dict1),
+      ", Pairs F2:",
+      nrow(list_dict$dict2),
+      "\n"
+    )
+  }
   fit <- optimx::optimx(
     START,
     FUN_logPL,

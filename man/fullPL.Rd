@@ -4,7 +4,15 @@
 \alias{fullPL}
 \title{Compute full Pairwise likelihood}
 \usage{
-fullPL(Y, X, F1, F2, MODEL = c("probit", "logit", "ordprobit"), START)
+fullPL(
+  Y,
+  X,
+  F1,
+  F2,
+  MODEL = c("probit", "logit", "ordprobit"),
+  START,
+  VERBOSE = 0
+)
 }
 \arguments{
 \item{Y}{Response vector}
