@@ -10,7 +10,7 @@
 #' @importFrom ggplot2 scale_fill_gradient2 guide_colorbar guides unit
 #' @importFrom patchwork plot_layout
 #' @importFrom rlang .data
-#' 
+#'
 #' @export
 plot_sa_traj <- function(FIT, MARG = FALSE) {
   if (MARG) {
@@ -36,7 +36,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
     as_tibble() |>
     mutate(iter = FIT$path_iters2) |>
     pivot_longer(-.data$iter, names_to = "par", values_to = "est") |>
-    left_join(dictEst) |>
+    left_join(dictEst, by = "par") |>
     filter(.data$type == "threshold") |>
     ggplot(aes(
       x = .data$iter,
@@ -62,7 +62,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
     as_tibble() |>
     mutate(iter = FIT$path_iters2) |>
     pivot_longer(-.data$iter, names_to = "par", values_to = "est") |>
-    left_join(dictEst) |>
+    left_join(dictEst, by = "par") |>
     filter(.data$type == "fixed") |>
     ggplot(aes(x = .data$iter, y = .data$est, group = .data$par)) +
     theme_minimal() +
@@ -83,7 +83,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
     as_tibble() |>
     mutate(iter = FIT$path_iters2) |>
     pivot_longer(-.data$iter, names_to = "par", values_to = "est") |>
-    left_join(dictEst) |>
+    left_join(dictEst, by = "par") |>
     filter(.data$type == "var") |>
     ggplot(aes(
       x = .data$iter,

@@ -34,13 +34,11 @@ devtools::install_github("giuseppealfonzetti/SPL")
 
 
 ```{r example}
-library(lme4)
 library(SPL)
 
 data(InstEval, package = "lme4")
 N <- nrow(InstEval); R <- length(unique(InstEval$s)); C <- length(unique(InstEval$d))
 N; R; C;
-logb(R, N); logb(C, N)
 
 mod.polr <- MASS::polr(
     factor(y) ~ studage + lectage + service + dept,
@@ -50,19 +48,7 @@ mod.polr <- MASS::polr(
 y <- InstEval$y
 x <- model.matrix(mod.polr)[, -1]
 init <- c(mod.polr$zeta, mod.polr$coefficients, 0.25, 0.25)
- ctrl <- list(
-  PAIRS_PER_ITERATION = 8,
-      STEP0 = 1e-2, # parameter to tune.
-      STEP1 = 1, # default choice
-      STEP2 = 1e-20, #default choice
-      STEP3 = .75, #default choice
-      SCHEDULE = 1,
-      UPDATE = 1,
-      BURNE = 2, #1 * ceiling(nrow(InstRid) / upe), # Epochs to burn
-      MAXE = 3, #1.5 * ceiling(nrow(InstRid) / upe), # Epochs to run
-      UPE = length(y)/3,
-      SEED = 321
- )
+
 tictoc::tic()
 saFIT <- saPL(
     Y = as.numeric(y),
