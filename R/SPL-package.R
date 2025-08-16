@@ -12,8 +12,3 @@ NULL
 #' @import RcppEigen
 ## usethis namespace: end
 NULL
-
-## usethis namespace: start
-#' @import mvtnorm
-## usethis namespace: end
-NULL

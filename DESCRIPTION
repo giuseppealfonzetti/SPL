@@ -16,7 +16,13 @@ LinkingTo:
     Rcpp,
     RcppEigen
 Imports: 
+    rlang,
+    optimx,
     Rcpp,
-    RcppEigen
+    RcppEigen,
+    dplyr,
+    tidyr,
+    ggplot2,
+    patchwork
 URL: https://github.com/giuseppealfonzetti/SPL
 BugReports: https://github.com/giuseppealfonzetti/SPL/issues

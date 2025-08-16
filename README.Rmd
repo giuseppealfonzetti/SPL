@@ -20,37 +20,64 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/SPL)](https://CRAN.R-project.org/package=SPL)
 <!-- badges: end -->
 
-The goal of SPL is to ...
+The SPL package allows to estimate cross random effects model for binary and ordinal responses via pairwise likelihood. When dealing with small-to-moderate data dimensions, it is possible to use standard pairwise likelihood. In case of massive datasets, we suggest using stochastic pairise likelihood.
 
 ## Installation
 
-You can install the development version of SPL like so:
+You can install the development version of SPL via
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+devtools::install_github("giuseppealfonzetti/SPL")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
+library(lme4)
 library(SPL)
-## basic example code
+
+data(InstEval, package = "lme4")
+N <- nrow(InstEval); R <- length(unique(InstEval$s)); C <- length(unique(InstEval$d))
+N; R; C;
+logb(R, N); logb(C, N)
+
+mod.polr <- MASS::polr(
+    factor(y) ~ studage + lectage + service + dept,
+    method = "probit",
+    data = InstEval
+  )
+y <- InstEval$y
+x <- model.matrix(mod.polr)[, -1]
+init <- c(mod.polr$zeta, mod.polr$coefficients, 0.25, 0.25)
+ ctrl <- list(
+  PAIRS_PER_ITERATION = 8,
+      STEP0 = 1e-2, # parameter to tune.
+      STEP1 = 1, # default choice
+      STEP2 = 1e-20, #default choice
+      STEP3 = .75, #default choice
+      SCHEDULE = 1,
+      UPDATE = 1,
+      BURNE = 2, #1 * ceiling(nrow(InstRid) / upe), # Epochs to burn
+      MAXE = 3, #1.5 * ceiling(nrow(InstRid) / upe), # Epochs to run
+      UPE = length(y)/3,
+      SEED = 321
+ )
+tictoc::tic()
+saFIT <- saPL(
+    Y = as.numeric(y),
+    X = x,
+    F1 = InstEval$s,
+    F2 = InstEval$d,
+    START = init,
+    MODEL = "ordprobit",
+    VERBOSE = 2
+  )
+tictoc::toc()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
+```{r plot}
+plot_sa_traj(saFIT)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

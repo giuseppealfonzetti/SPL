@@ -23,26 +23,14 @@ get_list_ind_dict <- function(F1, F2) {
   ))
 }
 
-# FUN_logPL <- function(THETA, X, Y, LINK, DICT1, DICT2) {
-#   cpp_llikFullPool2D(
-#     Y = Y,
-#     X = X,
-#     DICT1 = DICT1,
-#     DICT2 = DICT2,
-#     THETA = THETA,
-#     LINK = LINK,
-#     NCAT = length(unique(Y))
-#   )
-# }
-
-# FUN_grlogPL <- function(THETA, X, Y, LINK, DICT1, DICT2) {
-#   cpp_grllFullPool2D(
-#     Y = Y,
-#     X = X,
-#     DICT1 = DICT1,
-#     DICT2 = DICT2,
-#     THETA = THETA,
-#     LINK = LINK,
-#     NCAT = length(unique(Y))
-#   )
-# }
+#' From marginal to conditional parameterisation
+#' @param PAR Marginal parameter vector
+#' @export
+marg2cond <- function(PAR) {
+  p <- length(PAR) - 2
+  gamma <- PAR[1:p]
+  sigma2A <- PAR[p + 1] / (1 - PAR[p + 1] - PAR[p + 2])
+  sigma2B <- PAR[p + 2] / (1 - PAR[p + 1] - PAR[p + 2])
+  betaAB <- gamma * sqrt(1 + sigma2A + sigma2B)
+  return(c(betaAB, sqrt(sigma2A), sqrt(sigma2B)))
+}

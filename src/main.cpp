@@ -8,7 +8,6 @@
 #include "pl.h"
 
 //' Stochastic approximator
-//' @export
 // [[Rcpp::export]]
 Rcpp::List cpp_SA2(
     Eigen::Map<Eigen::VectorXd> Y,

@@ -26,13 +26,15 @@ FUN_grlogPL <- function(THETA, X, Y, LINK, DICT1, DICT2) {
 #'
 #' @param Y Response vector
 #' @param X Design matrix
-#' @param F1 Row factor vector
-#' @param F2 Column factor vector
+#' @param F1 Vector with row memberships
+#' @param F2 Vector with column memberships
 #' @param MODEL Choose among "probit", "logit" and "ordprobit"
 #' @param START Starting vector for model parameters
+#' @param VERBOSE Verbose output
 #'
 #' @return fitted model
 #'
+#' @importFrom optimx optimx
 #' @export
 fullPL <- function(
   Y,
