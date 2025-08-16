@@ -72,7 +72,7 @@ saFIT <- saPL(
 #> End of cycle: 2| mean abs theta pdiff from prev cycle: 0.0146225
 #> Ended
 tictoc::toc()
-#> 24.88 sec elapsed
+#> 24.621 sec elapsed
 ```
 
 ``` r
