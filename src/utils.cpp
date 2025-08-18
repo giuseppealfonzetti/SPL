@@ -256,6 +256,25 @@ std::vector<int> utils::get_pair_idx(
   return out;
 }
 
+void utils::in_place_sample(
+    std::vector<int>& VEC,
+    const int K,
+    const int SEED
+){
+  int n = VEC.size();
+  std::mt19937 randomizer(SEED);
+  std::uniform_int_distribution<int> sampler; 
+
+  for (int i = 0; i < K; i++) {
+      sampler.param(std::uniform_int_distribution<int>::param_type(i, n - 1));
+      int j = sampler(randomizer);
+      std::swap(VEC[i], VEC[j]);
+  }
+
+  // return VEC;
+
+}
+
 // Construct dictionary of pair indices where row number is their idx
 Eigen::MatrixXi cpp_get_dict(
     const std::vector<std::vector<int>> LIST,

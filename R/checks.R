@@ -74,6 +74,8 @@ check_sa_args <- function(LIST, N, R, C) {
   stopifnot(LIST$SEED > 0)
   out$SEED <- as.integer(LIST$SEED)
 
+  out$SHUFFLER <- LIST$SHUFFLER
+
   # to be deprecated
   out$STEP1 <- 1
   out$STEP2 <- 1e-5

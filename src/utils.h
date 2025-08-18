@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include <RcppEigen.h>
+#include <random>
 
 namespace utils{
 
@@ -50,7 +51,13 @@ namespace utils{
    std::vector<int> get_pair_idx(
     const int IDX,
     const std::vector<std::vector<int>> LIST,
-    const std::vector<int> CUMPAIRS);   
+    const std::vector<int> CUMPAIRS); 
+    
+    void in_place_sample(
+        std::vector<int>& VEC,
+        const int K,
+        const int SEED
+    );
 
 }
 
@@ -59,4 +66,6 @@ namespace utils{
 Eigen::MatrixXi cpp_get_dict(
     const std::vector<std::vector<int>> LIST,
     const int NPAIRS);
+
+
 #endif

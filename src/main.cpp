@@ -17,6 +17,7 @@ Rcpp::List cpp_SA2(
     Eigen::Map<Eigen::MatrixXi> DICT2,
     Eigen::Map<Eigen::VectorXd> START,
     const double STEP0,
+    const int SHUFFLER,
     const double STEP1=1,
     const double STEP2=1e-20,
     const double STEP3=.75,
@@ -27,9 +28,9 @@ Rcpp::List cpp_SA2(
     const double AD2=.999,
     const int PAIRS_PER_ITERATION=8,
     const int BURNE=2,
-    const int MAXE=4,
+    const int MAXE=3,
     const bool ISH=true,
-    const int UPE=1e5,
+    const int UPE=1e4,
     const int SEED=123,
     const int VERBOSE=1,
     const int NCAT = 2
@@ -116,9 +117,18 @@ Rcpp::List cpp_SA2(
     /////////////////////
     // Set-up the randomizer
     if(ISH || epoch>0){
-      std::mt19937 randomizer(SEED + epoch);
-      std::shuffle(pool1.begin(), pool1.end(), randomizer);
-      std::shuffle(pool2.begin(), pool2.end(), randomizer);
+      if(SHUFFLER==0){
+        std::mt19937 randomizer(SEED + epoch);
+        std::shuffle(pool1.begin(), pool1.end(), randomizer);
+        std::shuffle(pool2.begin(), pool2.end(), randomizer);
+      }else{
+        utils::in_place_sample(pool1, upe, SEED + epoch);
+        utils::in_place_sample(pool2, upe, SEED + epoch);
+      }
+      
+
+
+
     }
 
 
@@ -291,4 +301,55 @@ Rcpp::List cpp_SA2(
       Rcpp::Named("avtheta") = avtheta
     );
   return(output);
+}
+
+//' Get indices contained in the pair, by pair idx
+//' @export
+// [[Rcpp::export]]
+std::vector<int> cpp_shuffle(
+    std::vector<int> VEC,
+    const int K,
+    const int SEED
+){
+  std::mt19937 randomizer(SEED);
+  std::shuffle(VEC.begin(), VEC.end(), randomizer);
+
+  return std::vector<int>(VEC.begin(), VEC.begin() + K);
+}
+
+//' @export
+// [[Rcpp::export]]
+std::vector<int> cpp_sample(
+    std::vector<int> VEC,
+    const int K,
+    const int SEED
+){
+  std::mt19937 randomizer(SEED);
+  std::vector<int> out;
+  std::sample(VEC.begin(), VEC.end(), std::back_inserter(out), K, randomizer);
+  return out;
+}
+
+//' @export
+// [[Rcpp::export]]
+std::vector<int> cpp_sample2(
+    std::vector<int> VEC,
+    const int K,
+    const int SEED
+){
+    // int n = VEC.size();
+    // std::mt19937 randomizer(SEED);
+    // std::uniform_int_distribution<int> sampler; 
+
+    // for (int i = 0; i < K; i++) {
+    //     sampler.param(std::uniform_int_distribution<int>::param_type(i, n - 1));
+    //     int j = sampler(randomizer);
+    //     std::swap(VEC[i], VEC[j]);
+    // }
+
+    // return std::vector<int>(VEC.begin(), VEC.begin() + K);
+
+    std::vector<int> vec =VEC;
+    utils::in_place_sample(vec, K, SEED);
+    return vec;
 }

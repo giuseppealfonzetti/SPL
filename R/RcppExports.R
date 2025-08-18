@@ -10,8 +10,24 @@ cpp_grllFullPool2D <- function(Y, X, DICT1, DICT2, THETA, LINK, NCAT = 2L) {
 }
 
 #' Stochastic approximator
-cpp_SA2 <- function(Y, X, LINK, DICT1, DICT2, START, STEP0, STEP1 = 1, STEP2 = 1e-20, STEP3 = .75, SCHEDULE = 2L, UPDATE = 0L, SWITCH = 0L, AD1 = .9, AD2 = .999, PAIRS_PER_ITERATION = 8L, BURNE = 2L, MAXE = 4L, ISH = TRUE, UPE = 1e5L, SEED = 123L, VERBOSE = 1L, NCAT = 2L) {
-    .Call(`_SPL_cpp_SA2`, Y, X, LINK, DICT1, DICT2, START, STEP0, STEP1, STEP2, STEP3, SCHEDULE, UPDATE, SWITCH, AD1, AD2, PAIRS_PER_ITERATION, BURNE, MAXE, ISH, UPE, SEED, VERBOSE, NCAT)
+cpp_SA2 <- function(Y, X, LINK, DICT1, DICT2, START, STEP0, SHUFFLER, STEP1 = 1, STEP2 = 1e-20, STEP3 = .75, SCHEDULE = 2L, UPDATE = 0L, SWITCH = 0L, AD1 = .9, AD2 = .999, PAIRS_PER_ITERATION = 8L, BURNE = 2L, MAXE = 3L, ISH = TRUE, UPE = 1e4L, SEED = 123L, VERBOSE = 1L, NCAT = 2L) {
+    .Call(`_SPL_cpp_SA2`, Y, X, LINK, DICT1, DICT2, START, STEP0, SHUFFLER, STEP1, STEP2, STEP3, SCHEDULE, UPDATE, SWITCH, AD1, AD2, PAIRS_PER_ITERATION, BURNE, MAXE, ISH, UPE, SEED, VERBOSE, NCAT)
+}
+
+#' Get indices contained in the pair, by pair idx
+#' @export
+cpp_shuffle <- function(VEC, K, SEED) {
+    .Call(`_SPL_cpp_shuffle`, VEC, K, SEED)
+}
+
+#' @export
+cpp_sample <- function(VEC, K, SEED) {
+    .Call(`_SPL_cpp_sample`, VEC, K, SEED)
+}
+
+#' @export
+cpp_sample2 <- function(VEC, K, SEED) {
+    .Call(`_SPL_cpp_sample2`, VEC, K, SEED)
 }
 
 cpp_get_dict <- function(LIST, NPAIRS) {
