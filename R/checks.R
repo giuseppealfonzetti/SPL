@@ -3,7 +3,7 @@ check_sa_args <- function(LIST, N, R, C) {
 
   # pair per dimension per iteration
   if (is.null(LIST$PPI)) {
-    LIST$PPI <- 8
+    LIST$PPI <- 16
   }
   stopifnot(is.numeric(LIST$PPI))
   stopifnot(LIST$PPI > 0)
@@ -59,7 +59,7 @@ check_sa_args <- function(LIST, N, R, C) {
 
   # Update per Cycle
   if (is.null(LIST$UPE)) {
-    LIST$UPE <- N / ((out$MAXE + out$BURNE) * out$PAIRS_PER_ITERATION)
+    LIST$UPE <- N / ((out$MAXE + out$BURNE))
   }
   stopifnot(is.numeric(LIST$UPE))
   stopifnot(LIST$UPE > 0)
