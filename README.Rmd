@@ -57,8 +57,7 @@ saFIT <- saPL(
     F2 = InstEval$d,
     START = init,
     MODEL = "ordprobit",
-    VERBOSE = 2,
-    CONTROL = list(SHUFFLER=3)
+    VERBOSE = 1
   )
 tictoc::toc()
 ```

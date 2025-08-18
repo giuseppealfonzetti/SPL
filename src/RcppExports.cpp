@@ -46,8 +46,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // cpp_SA2
-Rcpp::List cpp_SA2(Eigen::Map<Eigen::VectorXd> Y, Eigen::Map<Eigen::MatrixXd> X, const std::string LINK, Eigen::Map<Eigen::MatrixXi> DICT1, Eigen::Map<Eigen::MatrixXi> DICT2, Eigen::Map<Eigen::VectorXd> START, const double STEP0, const int SHUFFLER, const double STEP1, const double STEP2, const double STEP3, const int SCHEDULE, const int UPDATE, const int SWITCH, const double AD1, const double AD2, const int PAIRS_PER_ITERATION, const int BURNE, const int MAXE, const bool ISH, const int UPE, const int SEED, const int VERBOSE, const int NCAT);
-RcppExport SEXP _SPL_cpp_SA2(SEXP YSEXP, SEXP XSEXP, SEXP LINKSEXP, SEXP DICT1SEXP, SEXP DICT2SEXP, SEXP STARTSEXP, SEXP STEP0SEXP, SEXP SHUFFLERSEXP, SEXP STEP1SEXP, SEXP STEP2SEXP, SEXP STEP3SEXP, SEXP SCHEDULESEXP, SEXP UPDATESEXP, SEXP SWITCHSEXP, SEXP AD1SEXP, SEXP AD2SEXP, SEXP PAIRS_PER_ITERATIONSEXP, SEXP BURNESEXP, SEXP MAXESEXP, SEXP ISHSEXP, SEXP UPESEXP, SEXP SEEDSEXP, SEXP VERBOSESEXP, SEXP NCATSEXP) {
+Rcpp::List cpp_SA2(Eigen::Map<Eigen::VectorXd> Y, Eigen::Map<Eigen::MatrixXd> X, const std::string LINK, Eigen::Map<Eigen::MatrixXi> DICT1, Eigen::Map<Eigen::MatrixXi> DICT2, Eigen::Map<Eigen::VectorXd> START, const double STEP0, const bool REPLACEMENT, const double STEP1, const double STEP2, const double STEP3, const int SCHEDULE, const int UPDATE, const int SWITCH, const double AD1, const double AD2, const int PAIRS_PER_ITERATION, const int BURNE, const int MAXE, const int UPE, const int SEED, const int VERBOSE, const int NCAT);
+RcppExport SEXP _SPL_cpp_SA2(SEXP YSEXP, SEXP XSEXP, SEXP LINKSEXP, SEXP DICT1SEXP, SEXP DICT2SEXP, SEXP STARTSEXP, SEXP STEP0SEXP, SEXP REPLACEMENTSEXP, SEXP STEP1SEXP, SEXP STEP2SEXP, SEXP STEP3SEXP, SEXP SCHEDULESEXP, SEXP UPDATESEXP, SEXP SWITCHSEXP, SEXP AD1SEXP, SEXP AD2SEXP, SEXP PAIRS_PER_ITERATIONSEXP, SEXP BURNESEXP, SEXP MAXESEXP, SEXP UPESEXP, SEXP SEEDSEXP, SEXP VERBOSESEXP, SEXP NCATSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -58,7 +58,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::Map<Eigen::MatrixXi> >::type DICT2(DICT2SEXP);
     Rcpp::traits::input_parameter< Eigen::Map<Eigen::VectorXd> >::type START(STARTSEXP);
     Rcpp::traits::input_parameter< const double >::type STEP0(STEP0SEXP);
-    Rcpp::traits::input_parameter< const int >::type SHUFFLER(SHUFFLERSEXP);
+    Rcpp::traits::input_parameter< const bool >::type REPLACEMENT(REPLACEMENTSEXP);
     Rcpp::traits::input_parameter< const double >::type STEP1(STEP1SEXP);
     Rcpp::traits::input_parameter< const double >::type STEP2(STEP2SEXP);
     Rcpp::traits::input_parameter< const double >::type STEP3(STEP3SEXP);
@@ -70,12 +70,11 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const int >::type PAIRS_PER_ITERATION(PAIRS_PER_ITERATIONSEXP);
     Rcpp::traits::input_parameter< const int >::type BURNE(BURNESEXP);
     Rcpp::traits::input_parameter< const int >::type MAXE(MAXESEXP);
-    Rcpp::traits::input_parameter< const bool >::type ISH(ISHSEXP);
     Rcpp::traits::input_parameter< const int >::type UPE(UPESEXP);
     Rcpp::traits::input_parameter< const int >::type SEED(SEEDSEXP);
     Rcpp::traits::input_parameter< const int >::type VERBOSE(VERBOSESEXP);
     Rcpp::traits::input_parameter< const int >::type NCAT(NCATSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_SA2(Y, X, LINK, DICT1, DICT2, START, STEP0, SHUFFLER, STEP1, STEP2, STEP3, SCHEDULE, UPDATE, SWITCH, AD1, AD2, PAIRS_PER_ITERATION, BURNE, MAXE, ISH, UPE, SEED, VERBOSE, NCAT));
+    rcpp_result_gen = Rcpp::wrap(cpp_SA2(Y, X, LINK, DICT1, DICT2, START, STEP0, REPLACEMENT, STEP1, STEP2, STEP3, SCHEDULE, UPDATE, SWITCH, AD1, AD2, PAIRS_PER_ITERATION, BURNE, MAXE, UPE, SEED, VERBOSE, NCAT));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -147,7 +146,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_SPL_cpp_llikFullPool2D", (DL_FUNC) &_SPL_cpp_llikFullPool2D, 7},
     {"_SPL_cpp_grllFullPool2D", (DL_FUNC) &_SPL_cpp_grllFullPool2D, 7},
-    {"_SPL_cpp_SA2", (DL_FUNC) &_SPL_cpp_SA2, 24},
+    {"_SPL_cpp_SA2", (DL_FUNC) &_SPL_cpp_SA2, 23},
     {"_SPL_cpp_shuffle", (DL_FUNC) &_SPL_cpp_shuffle, 3},
     {"_SPL_cpp_sample", (DL_FUNC) &_SPL_cpp_sample, 3},
     {"_SPL_cpp_sample2", (DL_FUNC) &_SPL_cpp_sample2, 3},

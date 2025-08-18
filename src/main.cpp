@@ -17,7 +17,7 @@ Rcpp::List cpp_SA2(
     Eigen::Map<Eigen::MatrixXi> DICT2,
     Eigen::Map<Eigen::VectorXd> START,
     const double STEP0,
-    const int SHUFFLER,
+    const bool REPLACEMENT,
     const double STEP1=1,
     const double STEP2=1e-20,
     const double STEP3=.75,
@@ -29,7 +29,6 @@ Rcpp::List cpp_SA2(
     const int PAIRS_PER_ITERATION=8,
     const int BURNE=2,
     const int MAXE=3,
-    const bool ISH=true,
     const int UPE=1e4,
     const int SEED=123,
     const int VERBOSE=1,
@@ -56,10 +55,10 @@ Rcpp::List cpp_SA2(
   ////////////////////
 
   // Initialize vectors of indexes for all the pairs
-  std::vector<int> pool1(pairs1) ;
-  std::vector<int> pool2(pairs2) ;
-  std::iota(std::begin(pool1), std::end(pool1), 0);
-  std::iota(std::begin(pool2), std::end(pool2), 0);
+  // std::vector<int> pool1(pairs1) ;
+  // std::vector<int> pool2(pairs2) ;
+  // std::iota(std::begin(pool1), std::end(pool1), 0);
+  // std::iota(std::begin(pool2), std::end(pool2), 0);
 
   // Initialise vector of trajectories to output to R
   std::vector<Eigen::VectorXd> path_theta;
@@ -119,28 +118,20 @@ Rcpp::List cpp_SA2(
     // SAMPLING SCHEME //
     /////////////////////
     // Set-up the randomizer
-    if(ISH || epoch>0){
-      if(SHUFFLER==0){
-        std::mt19937 randomizer(SEED + epoch);
-        std::shuffle(pool1.begin(), pool1.end(), randomizer);
-        std::shuffle(pool2.begin(), pool2.end(), randomizer);
-      }else if(SHUFFLER==1){
-        utils::in_place_sample(pool1, upe*PAIRS_PER_ITERATION, SEED + epoch);
-        utils::in_place_sample(pool2, upe*PAIRS_PER_ITERATION, SEED + epoch);
-      }else if(SHUFFLER==2){
-        pool1e = utils::pool_with_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
-        pool2e = utils::pool_with_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
-      }else if(SHUFFLER==3){
-        pool1e = utils::pool_without_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
-        pool2e = utils::pool_without_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
-      }
-
-      
-      
-
-
-
+    if(REPLACEMENT){
+      pool1e = utils::pool_with_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
+      pool2e = utils::pool_with_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
+    }else{
+      pool1e = utils::pool_without_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
+      pool2e = utils::pool_without_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
     }
+
+      
+      
+
+
+
+    // }
 
     // std::vector<int> pool1e= utils::pool_with_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
     // std::vector<int> pool2e= utils::pool_with_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
@@ -302,8 +293,8 @@ Rcpp::List cpp_SA2(
     Rcpp::List::create(
       Rcpp::Named("burnt") = burnt,
       Rcpp::Named("scale") = scale,
-      Rcpp::Named("pool1") = pool1,
-      Rcpp::Named("pool2") = pool2,
+      // Rcpp::Named("pool1") = pool1,
+      // Rcpp::Named("pool2") = pool2,
       Rcpp::Named("path_theta") = path_theta,
       Rcpp::Named("path_avtheta") = path_avtheta,
       Rcpp::Named("path_avtheta2") = path_avtheta2,

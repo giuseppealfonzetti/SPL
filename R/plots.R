@@ -16,12 +16,12 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
   if (MARG) {
     saEstTraj <- Reduce(
       rbind,
-      FIT$path_avtheta2
+      FIT$path_avtheta
     )
   } else {
     saEstTraj <- Reduce(
       rbind,
-      lapply(FIT$path_avtheta2, function(par) marg2cond(unlist(par)))
+      lapply(FIT$path_avtheta, function(par) marg2cond(unlist(par)))
     )
   }
 
@@ -34,7 +34,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
 
   gg1 <- saEstTraj |>
     as_tibble() |>
-    mutate(iter = FIT$path_iters2) |>
+    mutate(iter = FIT$path_iters) |>
     pivot_longer(-.data$iter, names_to = "par", values_to = "est") |>
     left_join(dictEst, by = "par") |>
     filter(.data$type == "threshold") |>
@@ -60,7 +60,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
 
   gg2 <- saEstTraj |>
     as_tibble() |>
-    mutate(iter = FIT$path_iters2) |>
+    mutate(iter = FIT$path_iters) |>
     pivot_longer(-.data$iter, names_to = "par", values_to = "est") |>
     left_join(dictEst, by = "par") |>
     filter(.data$type == "fixed") |>
@@ -81,7 +81,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
 
   gg3 <- saEstTraj |>
     as_tibble() |>
-    mutate(iter = FIT$path_iters2) |>
+    mutate(iter = FIT$path_iters) |>
     pivot_longer(-.data$iter, names_to = "par", values_to = "est") |>
     left_join(dictEst, by = "par") |>
     filter(.data$type == "var") |>

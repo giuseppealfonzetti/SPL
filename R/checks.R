@@ -38,17 +38,9 @@ check_sa_args <- function(LIST, N, R, C) {
   stopifnot(LIST$STEP0 > 0)
   out$STEP0 <- LIST$STEP0
 
-  # Update per Cycle
-  if (is.null(LIST$UPE)) {
-    LIST$UPE <- N / 3
-  }
-  stopifnot(is.numeric(LIST$UPE))
-  stopifnot(LIST$UPE > 0)
-  out$UPE <- as.integer(LIST$UPE)
-
   # Number of cycles to burn before averaging
   if (is.null(LIST$BURNE)) {
-    LIST$BURNE <- 2
+    LIST$BURNE <- 7
   }
 
   stopifnot(is.numeric(LIST$BURNE))
@@ -57,13 +49,21 @@ check_sa_args <- function(LIST, N, R, C) {
 
   # Total number of cycles
   if (is.null(LIST$MAXE)) {
-    LIST$MAXE <- out$BURNE + 1
+    LIST$MAXE <- out$BURNE + 3
   }
 
   stopifnot(is.numeric(LIST$MAXE))
   stopifnot(LIST$MAXE > 0)
   stopifnot(LIST$MAXE > LIST$BURNE)
   out$MAXE <- as.integer(LIST$MAXE)
+
+  # Update per Cycle
+  if (is.null(LIST$UPE)) {
+    LIST$UPE <- N / ((out$MAXE + out$BURNE) * out$PAIRS_PER_ITERATION)
+  }
+  stopifnot(is.numeric(LIST$UPE))
+  stopifnot(LIST$UPE > 0)
+  out$UPE <- as.integer(LIST$UPE)
 
   # Sampling SEED
   if (is.null(LIST$SEED)) {
@@ -75,10 +75,12 @@ check_sa_args <- function(LIST, N, R, C) {
   out$SEED <- as.integer(LIST$SEED)
 
   # sampler
-  if (is.null(LIST$SHUFFLER)) {
-    LIST$SHUFFLER <- 2
+  if (is.null(LIST$REPLACEMENT)) {
+    LIST$REPLACEMENT <- TRUE
   }
-  out$SHUFFLER <- LIST$SHUFFLER
+  stopifnot(is.logical(LIST$REPLACEMENT))
+
+  out$REPLACEMENT <- LIST$REPLACEMENT
 
   # to be deprecated
   out$STEP1 <- 1
