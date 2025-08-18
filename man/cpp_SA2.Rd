@@ -13,6 +13,7 @@ cpp_SA2(
   START,
   STEP0,
   REPLACEMENT,
+  TOL,
   STEP1 = 1,
   STEP2 = 1e-20,
   STEP3 = 0.75,
@@ -27,7 +28,8 @@ cpp_SA2(
   UPE = 10000L,
   SEED = 123L,
   VERBOSE = 1L,
-  NCAT = 2L
+  NCAT = 2L,
+  CHECK = TRUE
 )
 }
 \description{

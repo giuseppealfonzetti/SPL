@@ -30,6 +30,14 @@ check_sa_args <- function(LIST, N, R, C) {
   stopifnot(is.logical(LIST$SWITCH))
   out$SWITCH <- as.numeric(LIST$SWITCH)
 
+  # BASE TOL
+  if (is.null(LIST$TOL)) {
+    LIST$TOL <- 1e-2
+  }
+  stopifnot(is.numeric(LIST$TOL))
+  stopifnot(LIST$TOL > 0)
+  out$TOL <- LIST$TOL
+
   # BASE LR
   if (is.null(LIST$STEP0)) {
     LIST$STEP0 <- 1e-2
@@ -38,28 +46,27 @@ check_sa_args <- function(LIST, N, R, C) {
   stopifnot(LIST$STEP0 > 0)
   out$STEP0 <- LIST$STEP0
 
+  # Total number of cycles
+  if (is.null(LIST$MAXE)) {
+    LIST$MAXE <- 10
+  }
+  stopifnot(is.numeric(LIST$MAXE))
+  stopifnot(LIST$MAXE > 0)
+  stopifnot(LIST$MAXE > LIST$BURNE)
+  out$MAXE <- as.integer(LIST$MAXE)
+
   # Number of cycles to burn before averaging
   if (is.null(LIST$BURNE)) {
-    LIST$BURNE <- 7
+    LIST$BURNE <- LIST$MAXE - 1
   }
 
   stopifnot(is.numeric(LIST$BURNE))
   stopifnot(LIST$BURNE > 0)
   out$BURNE <- as.integer(LIST$BURNE)
 
-  # Total number of cycles
-  if (is.null(LIST$MAXE)) {
-    LIST$MAXE <- out$BURNE + 3
-  }
-
-  stopifnot(is.numeric(LIST$MAXE))
-  stopifnot(LIST$MAXE > 0)
-  stopifnot(LIST$MAXE > LIST$BURNE)
-  out$MAXE <- as.integer(LIST$MAXE)
-
   # Update per Cycle
   if (is.null(LIST$UPE)) {
-    LIST$UPE <- N / ((out$MAXE + out$BURNE))
+    LIST$UPE <- N / (out$MAXE)
   }
   stopifnot(is.numeric(LIST$UPE))
   stopifnot(LIST$UPE > 0)
@@ -81,6 +88,13 @@ check_sa_args <- function(LIST, N, R, C) {
   stopifnot(is.logical(LIST$REPLACEMENT))
 
   out$REPLACEMENT <- LIST$REPLACEMENT
+
+  # sampler
+  if (is.null(LIST$CHECK)) {
+    LIST$CHECK <- TRUE
+  }
+  stopifnot(is.logical(LIST$CHECK))
+  out$CHECK <- LIST$CHECK
 
   # to be deprecated
   out$STEP1 <- 1

@@ -18,6 +18,7 @@ Rcpp::List cpp_SA2(
     Eigen::Map<Eigen::VectorXd> START,
     const double STEP0,
     const bool REPLACEMENT,
+    const double TOL,
     const double STEP1=1,
     const double STEP2=1e-20,
     const double STEP3=.75,
@@ -32,7 +33,8 @@ Rcpp::List cpp_SA2(
     const int UPE=1e4,
     const int SEED=123,
     const int VERBOSE=1,
-    const int NCAT = 2
+    const int NCAT = 2,
+    const bool CHECK = true
 ){
 
   ///////////////
@@ -48,6 +50,8 @@ Rcpp::List cpp_SA2(
   const double prob = static_cast<double>(2*PAIRS_PER_ITERATION)/static_cast<double>(pairs1+pairs2);
   const double scale = 1/(static_cast<double>(n));
   int update_flag = UPDATE;
+  int burn=BURNE;
+  int maxe=MAXE;
 
 
   /////////////////////
@@ -108,7 +112,7 @@ Rcpp::List cpp_SA2(
 
   std::vector<int> pool1e(upe*PAIRS_PER_ITERATION) ;
   std::vector<int> pool2e(upe*PAIRS_PER_ITERATION) ;
-  for(int epoch=0; epoch < MAXE; epoch++){
+  for(int epoch=0; epoch < maxe; epoch++){
     Rcpp::checkUserInterrupt();
 
     Eigen::VectorXd prev_epoch_theta = theta;
@@ -230,7 +234,7 @@ Rcpp::List cpp_SA2(
 
 
 
-      if(epoch < BURNE){
+      if(epoch < burn){
         avtheta = theta;
       }else{
         avtheta = ( (t - burnt) * avtheta + theta ) / (t - burnt + 1);
@@ -261,16 +265,22 @@ Rcpp::List cpp_SA2(
     ////////////
     // REPORT //
     ////////////
-    Eigen::VectorXd prev_epoch_thetapdiff = (theta.array()-prev_epoch_theta.array())/prev_epoch_theta.array();
-    if(VERBOSE>0) Rcpp::Rcout << "End of cycle: "<<epoch<< "| mean abs theta pdiff from prev cycle: "<< prev_epoch_thetapdiff.array().abs().mean()<<"\n";
+    Eigen::VectorXd prev_epoch_thetapdiff = (theta.array()-prev_epoch_theta.array()).abs()/prev_epoch_theta.array().abs();
+    double conv_metric = prev_epoch_thetapdiff.maxCoeff();
+
+    if(VERBOSE>0) Rcpp::Rcout << "End of cycle: "<<epoch<< "| max abs theta pdiff from prev cycle: "<< conv_metric<<"\n";
 
 
+
+    if(!CHECK) conv_metric = TOL+1.0;
     /////////////////
     // AUTO BURNIN //
     /////////////////
-    if(epoch==(BURNE-1)){
+    if((conv_metric<=TOL & epoch < burn) | epoch==(burn-1)){
       if(VERBOSE>0) Rcpp::Rcout << "Burn-in ended\n";
       burnt=t;
+      burn = epoch+1;
+      if(epoch+2 < maxe) maxe = epoch+2;
       if(SWITCH) update_flag=2;
     }
 
@@ -279,7 +289,7 @@ Rcpp::List cpp_SA2(
     /////////////
     // EXITING //
     /////////////
-    if(epoch==(MAXE-1)){
+    if(epoch==(maxe-1)){
       if(VERBOSE>0) Rcpp::Rcout << "Ended\n";
       last_iter = t;
     }
