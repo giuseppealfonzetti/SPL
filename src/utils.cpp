@@ -290,6 +290,26 @@ std::vector<int> utils::pool_with_replacement(
   return pool;
 }
 
+std::vector<int> utils::pool_without_replacement(
+    const int N,
+    const int K,
+    const int SEED
+){
+  std::mt19937 randomizer(SEED);
+  std::uniform_int_distribution<int> sampler; 
+  std::vector<int> reservoir(N) ;
+  std::iota(std::begin(reservoir), std::end(reservoir), 0);
+  std::vector<int> pool(K);
+
+  for (int i = 0; i < K; i++) {
+      sampler.param(std::uniform_int_distribution<int>::param_type(i, N - 1));
+      int j = sampler(randomizer);
+      std::swap(reservoir[i], reservoir[j]);
+      pool[i] = j;
+  }
+  return pool;
+}
+
 // Construct dictionary of pair indices where row number is their idx
 Eigen::MatrixXi cpp_get_dict(
     const std::vector<std::vector<int>> LIST,

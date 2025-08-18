@@ -74,6 +74,10 @@ check_sa_args <- function(LIST, N, R, C) {
   stopifnot(LIST$SEED > 0)
   out$SEED <- as.integer(LIST$SEED)
 
+  # sampler
+  if (is.null(LIST$SHUFFLER)) {
+    LIST$SHUFFLER <- 2
+  }
   out$SHUFFLER <- LIST$SHUFFLER
 
   # to be deprecated

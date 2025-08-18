@@ -107,8 +107,8 @@ Rcpp::List cpp_SA2(
 
   double ll=1;
 
-  // std::vector<int> pool1e(upe) ;
-  // std::vector<int> pool2e(upe) ;
+  std::vector<int> pool1e(upe*PAIRS_PER_ITERATION) ;
+  std::vector<int> pool2e(upe*PAIRS_PER_ITERATION) ;
   for(int epoch=0; epoch < MAXE; epoch++){
     Rcpp::checkUserInterrupt();
 
@@ -128,8 +128,11 @@ Rcpp::List cpp_SA2(
         utils::in_place_sample(pool1, upe*PAIRS_PER_ITERATION, SEED + epoch);
         utils::in_place_sample(pool2, upe*PAIRS_PER_ITERATION, SEED + epoch);
       }else if(SHUFFLER==2){
-        // pool1e = utils::pool_with_replacement(pairs1, upe, SEED + epoch);
-        // pool2e = utils::pool_with_replacement(pairs2, upe, SEED + epoch);
+        pool1e = utils::pool_with_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
+        pool2e = utils::pool_with_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
+      }else if(SHUFFLER==3){
+        pool1e = utils::pool_without_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
+        pool2e = utils::pool_without_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
       }
 
       
@@ -139,8 +142,8 @@ Rcpp::List cpp_SA2(
 
     }
 
-    std::vector<int> pool1e= utils::pool_with_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
-    std::vector<int> pool2e= utils::pool_with_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
+    // std::vector<int> pool1e= utils::pool_with_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
+    // std::vector<int> pool2e= utils::pool_with_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
     // Rcpp::Rcout<<"size pool1:"<<pool1e.size()<<", size pool2:"<<pool2e.size()<<"\n";
 
     int idx_start=0;
