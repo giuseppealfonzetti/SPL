@@ -59,6 +59,12 @@ namespace utils{
         const int SEED
     );
 
+    std::vector<int> pool_with_replacement(
+        const int N,
+        const int K,
+        const int SEED
+    );
+
 }
 
 // Construct dictionary of pair indices where row number is their idx

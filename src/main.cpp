@@ -106,6 +106,9 @@ Rcpp::List cpp_SA2(
   if(VERBOSE>0) Rcpp::Rcout << "Starting...\nUpdates per cycle: "<<upe <<", pairs per dimension: "<<PAIRS_PER_ITERATION<<"\n";
 
   double ll=1;
+
+  // std::vector<int> pool1e(upe) ;
+  // std::vector<int> pool2e(upe) ;
   for(int epoch=0; epoch < MAXE; epoch++){
     Rcpp::checkUserInterrupt();
 
@@ -121,16 +124,24 @@ Rcpp::List cpp_SA2(
         std::mt19937 randomizer(SEED + epoch);
         std::shuffle(pool1.begin(), pool1.end(), randomizer);
         std::shuffle(pool2.begin(), pool2.end(), randomizer);
-      }else{
-        utils::in_place_sample(pool1, upe, SEED + epoch);
-        utils::in_place_sample(pool2, upe, SEED + epoch);
+      }else if(SHUFFLER==1){
+        utils::in_place_sample(pool1, upe*PAIRS_PER_ITERATION, SEED + epoch);
+        utils::in_place_sample(pool2, upe*PAIRS_PER_ITERATION, SEED + epoch);
+      }else if(SHUFFLER==2){
+        // pool1e = utils::pool_with_replacement(pairs1, upe, SEED + epoch);
+        // pool2e = utils::pool_with_replacement(pairs2, upe, SEED + epoch);
       }
+
+      
       
 
 
 
     }
 
+    std::vector<int> pool1e= utils::pool_with_replacement(pairs1, upe*PAIRS_PER_ITERATION, SEED + epoch);
+    std::vector<int> pool2e= utils::pool_with_replacement(pairs2, upe*PAIRS_PER_ITERATION, SEED + epoch);
+    // Rcpp::Rcout<<"size pool1:"<<pool1e.size()<<", size pool2:"<<pool2e.size()<<"\n";
 
     int idx_start=0;
 
@@ -149,11 +160,12 @@ Rcpp::List cpp_SA2(
         std::vector<int> iter_chosen_pairs1;
         std::vector<int> iter_chosen_pairs2;
 
+        // Rcpp::Rcout<<"t:"<< te<<", idx:"<<idx_start<<" | ";
         // Select the pairs from shuffled indices
         for(int draw = 0; draw < PAIRS_PER_ITERATION; draw++){
-            int pair_index1 = pool1.at(idx_start+draw);
+            int pair_index1 = pool1e.at(idx_start+draw);
             // if(VERBOSE) Rcpp::Rcout << pair_index1<<",";
-            int pair_index2 = pool2.at(idx_start+draw);
+            int pair_index2 = pool2e.at(idx_start+draw);
             iter_chosen_pairs1.push_back(pair_index1);
             iter_chosen_pairs2.push_back(pair_index2);
         }
@@ -351,5 +363,16 @@ std::vector<int> cpp_sample2(
 
     std::vector<int> vec =VEC;
     utils::in_place_sample(vec, K, SEED);
+    return vec;
+}
+
+//' @export
+// [[Rcpp::export]]
+std::vector<int> cpp_sample3(
+    std::vector<int> VEC,
+    const int K,
+    const int SEED
+){
+    std::vector<int> vec = utils::pool_with_replacement(VEC.size(), K, SEED);
     return vec;
 }

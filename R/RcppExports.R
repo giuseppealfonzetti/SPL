@@ -30,6 +30,11 @@ cpp_sample2 <- function(VEC, K, SEED) {
     .Call(`_SPL_cpp_sample2`, VEC, K, SEED)
 }
 
+#' @export
+cpp_sample3 <- function(VEC, K, SEED) {
+    .Call(`_SPL_cpp_sample3`, VEC, K, SEED)
+}
+
 cpp_get_dict <- function(LIST, NPAIRS) {
     .Call(`_SPL_cpp_get_dict`, LIST, NPAIRS)
 }

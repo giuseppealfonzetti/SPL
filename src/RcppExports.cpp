@@ -118,6 +118,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cpp_sample3
+std::vector<int> cpp_sample3(std::vector<int> VEC, const int K, const int SEED);
+RcppExport SEXP _SPL_cpp_sample3(SEXP VECSEXP, SEXP KSEXP, SEXP SEEDSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<int> >::type VEC(VECSEXP);
+    Rcpp::traits::input_parameter< const int >::type K(KSEXP);
+    Rcpp::traits::input_parameter< const int >::type SEED(SEEDSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_sample3(VEC, K, SEED));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cpp_get_dict
 Eigen::MatrixXi cpp_get_dict(const std::vector<std::vector<int>> LIST, const int NPAIRS);
 RcppExport SEXP _SPL_cpp_get_dict(SEXP LISTSEXP, SEXP NPAIRSSEXP) {
@@ -138,6 +151,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SPL_cpp_shuffle", (DL_FUNC) &_SPL_cpp_shuffle, 3},
     {"_SPL_cpp_sample", (DL_FUNC) &_SPL_cpp_sample, 3},
     {"_SPL_cpp_sample2", (DL_FUNC) &_SPL_cpp_sample2, 3},
+    {"_SPL_cpp_sample3", (DL_FUNC) &_SPL_cpp_sample3, 3},
     {"_SPL_cpp_get_dict", (DL_FUNC) &_SPL_cpp_get_dict, 2},
     {NULL, NULL, 0}
 };

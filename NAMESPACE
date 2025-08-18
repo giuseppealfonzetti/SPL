@@ -2,6 +2,7 @@
 
 export(cpp_sample)
 export(cpp_sample2)
+export(cpp_sample3)
 export(cpp_shuffle)
 export(fullPL)
 export(get_list_ind_dict)

@@ -275,6 +275,21 @@ void utils::in_place_sample(
 
 }
 
+std::vector<int> utils::pool_with_replacement(
+    const int N,
+    const int K,
+    const int SEED
+){
+  std::mt19937 randomizer(SEED);
+  std::uniform_int_distribution<int> sampler(0, N-1); 
+  std::vector<int> pool(K);
+  for (int i = 0; i < K; i++) {
+        int j = sampler(randomizer);
+        pool[i] = j;
+    }
+  return pool;
+}
+
 // Construct dictionary of pair indices where row number is their idx
 Eigen::MatrixXi cpp_get_dict(
     const std::vector<std::vector<int>> LIST,
