@@ -32,7 +32,7 @@ check_sa_args <- function(LIST, N, R, C) {
 
   # BASE TOL
   if (is.null(LIST$TOL)) {
-    LIST$TOL <- 1e-2
+    LIST$TOL <- 2e-2
   }
   stopifnot(is.numeric(LIST$TOL))
   stopifnot(LIST$TOL > 0)
