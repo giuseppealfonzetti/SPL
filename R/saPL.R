@@ -16,13 +16,21 @@ saPL <- function(
   F1,
   F2,
   MODEL = c("probit", "logit", "ordprobit"),
-  START,
+  START = NULL,
   CONTROL = list(),
   VERBOSE = 0
 ) {
   stopifnot(nrow(X) == length(Y))
   stopifnot(length(F1) == length(Y))
   stopifnot(length(F2) == length(Y))
+  if (is.null(START)) {
+    thr <- qnorm(
+      cumsum(table(Y)) / sum(table(Y))
+    )[1:4]
+    fe <- rep(0, ncol(X))
+
+    START <- c(thr, fe, 1 / 3, 1 / 3)
+  }
 
   MODEL <- match.arg(MODEL)
   list_dict <- get_list_ind_dict(F1, F2)

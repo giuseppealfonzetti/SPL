@@ -30,6 +30,7 @@ Rcpp::List cpp_SA2(
     const int PAIRS_PER_ITERATION=8,
     const int BURNE=2,
     const int MAXE=3,
+    const int MAXAVGE=2,
     const int UPE=1e4,
     const int SEED=123,
     const int VERBOSE=1,
@@ -280,7 +281,7 @@ Rcpp::List cpp_SA2(
       if(VERBOSE>0) Rcpp::Rcout << "Burn-in ended\n";
       burnt=t;
       burn = epoch+1;
-      if(epoch+2 < maxe) maxe = epoch+2;
+      if(epoch+MAXAVGE+1 < maxe) maxe = epoch+MAXAVGE+1;
       if(SWITCH) update_flag=2;
     }
 

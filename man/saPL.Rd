@@ -10,7 +10,7 @@ saPL(
   F1,
   F2,
   MODEL = c("probit", "logit", "ordprobit"),
-  START,
+  START = NULL,
   CONTROL = list(),
   VERBOSE = 0
 )

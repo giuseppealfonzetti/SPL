@@ -25,6 +25,7 @@ cpp_SA2(
   PAIRS_PER_ITERATION = 8L,
   BURNE = 2L,
   MAXE = 3L,
+  MAXAVGE = 2L,
   UPE = 10000L,
   SEED = 123L,
   VERBOSE = 1L,

@@ -13,14 +13,14 @@ double pl::probit::llikPool1D(
     const int n_pairs = SEL_IDX.size();
 
     for(int sel_idx=0; sel_idx<n_pairs; sel_idx++){
-    const int pair_idx  = SEL_IDX.at(sel_idx);
-    const int indfirst  = DICT(pair_idx,0) - 1;
-    const int indsecond = DICT(pair_idx,1) - 1;
-    const double eta1 = X.row(indfirst)*B;
-    const double eta2 = X.row(indsecond)*B;
-    const int y1 = Y(indfirst);
-    const int y2 = Y(indsecond);
-    out += pairs::probit::llikSinglePair(y1, y2, eta1, eta2, RHO);
+        const int pair_idx  = SEL_IDX.at(sel_idx);
+        const int indfirst  = DICT(pair_idx,0) - 1;
+        const int indsecond = DICT(pair_idx,1) - 1;
+        const double eta1 = X.row(indfirst)*B;
+        const double eta2 = X.row(indsecond)*B;
+        const int y1 = Y(indfirst);
+        const int y2 = Y(indsecond);
+        out += pairs::probit::llikSinglePair(y1, y2, eta1, eta2, RHO);
     }
 
     return(out);

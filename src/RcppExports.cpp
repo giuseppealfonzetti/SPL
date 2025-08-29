@@ -46,8 +46,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // cpp_SA2
-Rcpp::List cpp_SA2(Eigen::Map<Eigen::VectorXd> Y, Eigen::Map<Eigen::MatrixXd> X, const std::string LINK, Eigen::Map<Eigen::MatrixXi> DICT1, Eigen::Map<Eigen::MatrixXi> DICT2, Eigen::Map<Eigen::VectorXd> START, const double STEP0, const bool REPLACEMENT, const double TOL, const double STEP1, const double STEP2, const double STEP3, const int SCHEDULE, const int UPDATE, const int SWITCH, const double AD1, const double AD2, const int PAIRS_PER_ITERATION, const int BURNE, const int MAXE, const int UPE, const int SEED, const int VERBOSE, const int NCAT, const bool CHECK);
-RcppExport SEXP _SPL_cpp_SA2(SEXP YSEXP, SEXP XSEXP, SEXP LINKSEXP, SEXP DICT1SEXP, SEXP DICT2SEXP, SEXP STARTSEXP, SEXP STEP0SEXP, SEXP REPLACEMENTSEXP, SEXP TOLSEXP, SEXP STEP1SEXP, SEXP STEP2SEXP, SEXP STEP3SEXP, SEXP SCHEDULESEXP, SEXP UPDATESEXP, SEXP SWITCHSEXP, SEXP AD1SEXP, SEXP AD2SEXP, SEXP PAIRS_PER_ITERATIONSEXP, SEXP BURNESEXP, SEXP MAXESEXP, SEXP UPESEXP, SEXP SEEDSEXP, SEXP VERBOSESEXP, SEXP NCATSEXP, SEXP CHECKSEXP) {
+Rcpp::List cpp_SA2(Eigen::Map<Eigen::VectorXd> Y, Eigen::Map<Eigen::MatrixXd> X, const std::string LINK, Eigen::Map<Eigen::MatrixXi> DICT1, Eigen::Map<Eigen::MatrixXi> DICT2, Eigen::Map<Eigen::VectorXd> START, const double STEP0, const bool REPLACEMENT, const double TOL, const double STEP1, const double STEP2, const double STEP3, const int SCHEDULE, const int UPDATE, const int SWITCH, const double AD1, const double AD2, const int PAIRS_PER_ITERATION, const int BURNE, const int MAXE, const int MAXAVGE, const int UPE, const int SEED, const int VERBOSE, const int NCAT, const bool CHECK);
+RcppExport SEXP _SPL_cpp_SA2(SEXP YSEXP, SEXP XSEXP, SEXP LINKSEXP, SEXP DICT1SEXP, SEXP DICT2SEXP, SEXP STARTSEXP, SEXP STEP0SEXP, SEXP REPLACEMENTSEXP, SEXP TOLSEXP, SEXP STEP1SEXP, SEXP STEP2SEXP, SEXP STEP3SEXP, SEXP SCHEDULESEXP, SEXP UPDATESEXP, SEXP SWITCHSEXP, SEXP AD1SEXP, SEXP AD2SEXP, SEXP PAIRS_PER_ITERATIONSEXP, SEXP BURNESEXP, SEXP MAXESEXP, SEXP MAXAVGESEXP, SEXP UPESEXP, SEXP SEEDSEXP, SEXP VERBOSESEXP, SEXP NCATSEXP, SEXP CHECKSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -71,12 +71,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const int >::type PAIRS_PER_ITERATION(PAIRS_PER_ITERATIONSEXP);
     Rcpp::traits::input_parameter< const int >::type BURNE(BURNESEXP);
     Rcpp::traits::input_parameter< const int >::type MAXE(MAXESEXP);
+    Rcpp::traits::input_parameter< const int >::type MAXAVGE(MAXAVGESEXP);
     Rcpp::traits::input_parameter< const int >::type UPE(UPESEXP);
     Rcpp::traits::input_parameter< const int >::type SEED(SEEDSEXP);
     Rcpp::traits::input_parameter< const int >::type VERBOSE(VERBOSESEXP);
     Rcpp::traits::input_parameter< const int >::type NCAT(NCATSEXP);
     Rcpp::traits::input_parameter< const bool >::type CHECK(CHECKSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_SA2(Y, X, LINK, DICT1, DICT2, START, STEP0, REPLACEMENT, TOL, STEP1, STEP2, STEP3, SCHEDULE, UPDATE, SWITCH, AD1, AD2, PAIRS_PER_ITERATION, BURNE, MAXE, UPE, SEED, VERBOSE, NCAT, CHECK));
+    rcpp_result_gen = Rcpp::wrap(cpp_SA2(Y, X, LINK, DICT1, DICT2, START, STEP0, REPLACEMENT, TOL, STEP1, STEP2, STEP3, SCHEDULE, UPDATE, SWITCH, AD1, AD2, PAIRS_PER_ITERATION, BURNE, MAXE, MAXAVGE, UPE, SEED, VERBOSE, NCAT, CHECK));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -148,7 +149,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_SPL_cpp_llikFullPool2D", (DL_FUNC) &_SPL_cpp_llikFullPool2D, 7},
     {"_SPL_cpp_grllFullPool2D", (DL_FUNC) &_SPL_cpp_grllFullPool2D, 7},
-    {"_SPL_cpp_SA2", (DL_FUNC) &_SPL_cpp_SA2, 25},
+    {"_SPL_cpp_SA2", (DL_FUNC) &_SPL_cpp_SA2, 26},
     {"_SPL_cpp_shuffle", (DL_FUNC) &_SPL_cpp_shuffle, 3},
     {"_SPL_cpp_sample", (DL_FUNC) &_SPL_cpp_sample, 3},
     {"_SPL_cpp_sample2", (DL_FUNC) &_SPL_cpp_sample2, 3},

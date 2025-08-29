@@ -55,9 +55,18 @@ check_sa_args <- function(LIST, N, R, C) {
   stopifnot(LIST$MAXE > LIST$BURNE)
   out$MAXE <- as.integer(LIST$MAXE)
 
+  # Number of cycles to average
+  if (is.null(LIST$MAXAVGE)) {
+    LIST$MAXAVGE <- 2
+  }
+
+  stopifnot(is.numeric(LIST$MAXAVGE))
+  stopifnot(LIST$MAXAVGE > 0)
+  out$MAXAVGE <- as.integer(LIST$MAXAVGE)
+
   # Number of cycles to burn before averaging
   if (is.null(LIST$BURNE)) {
-    LIST$BURNE <- LIST$MAXE - 1
+    LIST$BURNE <- LIST$MAXE - LIST$MAXAVGE
   }
 
   stopifnot(is.numeric(LIST$BURNE))

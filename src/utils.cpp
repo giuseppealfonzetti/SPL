@@ -5,29 +5,6 @@ double weights[] = {0.044333151939163, 0.294973376977114, 0.429812481900555, 0.2
 double nodes[] = {1.122716044601626, 0.803901112364718, 0.576197647416307, 0.410913788475565, 0.291479895013730};
 
 
-
-// // bivariate pnorm
-// double utils::pmvnorm_cpp(Rcpp::NumericVector& upper, double rho, double abseps){
-//     int n = 2;
-//     int nu = 0;
-//     int maxpts = 25000;      // default in mvtnorm: 25000
-//     double releps = 0;      // default in mvtnorm: 0
-//     int rnd = 1;            // Get/PutRNGstate
-//     double* upper_ = upper.begin();
-//     int infin[2] = {0,0};
-//     double lower[2] = {0,1};
-//     double delta[2] = {0,0};
-//     double corr[1];
-//     corr[0] = rho;
-//     double error = 0;
-//     double value = 0;
-//     int inform = 0;
-
-//     mvtnorm_C_mvtdst(&n, &nu, lower, upper_, infin, corr, delta, &maxpts,
-//                      &abseps, &releps, &error, &value, &inform, &rnd);
-//     return(value);
-// }  
-
 double utils::pbvnorm(Rcpp::NumericVector& UPPER, double R){
   double H1 = UPPER[0];
   double HK = UPPER[1];
