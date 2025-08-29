@@ -30,7 +30,7 @@ You can install the development version of SPL via
 devtools::install_github("giuseppealfonzetti/SPL")
 ```
 
-## Example
+## Example Ordinal
 
 
 ```{r example}
@@ -40,22 +40,14 @@ data(InstEval, package = "lme4")
 N <- nrow(InstEval); R <- length(unique(InstEval$s)); C <- length(unique(InstEval$d))
 N; R; C;
 
-mod.polr <- MASS::polr(
-    factor(y) ~ studage + lectage + service + dept,
-    method = "probit",
-    data = InstEval
-  )
-y <- InstEval$y
-x <- model.matrix(mod.polr)[, -1]
-init <- c(mod.polr$zeta, mod.polr$coefficients, 0.25, 0.25)
+x <- model.matrix(formula("y ~ studage + lectage + service + dept"), data=InstEval)[, -1]
 
 tictoc::tic()
 saFIT <- saPL(
-    Y = as.numeric(y),
+    Y = as.numeric(InstEval$y),
     X = x,
     F1 = InstEval$s,
     F2 = InstEval$d,
-    START = init,
     MODEL = "ordprobit",
     VERBOSE = 1
   )
@@ -65,5 +57,8 @@ tictoc::toc()
 ```{r plot}
 plot_sa_traj(saFIT)
 ```
+
+
+
 
 

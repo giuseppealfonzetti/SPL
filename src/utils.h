@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include <RcppEigen.h>
 #include <random>
+#include <pbv.h>
 
 namespace utils{
 

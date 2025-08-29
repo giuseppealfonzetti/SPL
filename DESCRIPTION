@@ -14,12 +14,14 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 LinkingTo: 
     Rcpp,
-    RcppEigen
+    RcppEigen,
+    pbv
 Imports: 
     rlang,
     optimx,
     Rcpp,
     RcppEigen,
+    pbv,
     dplyr,
     tidyr,
     ggplot2,
