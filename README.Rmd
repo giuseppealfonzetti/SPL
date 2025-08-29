@@ -42,7 +42,6 @@ N; R; C;
 
 x <- model.matrix(formula("y ~ studage + lectage + service + dept"), data=InstEval)[, -1]
 
-tictoc::tic()
 saFIT <- saPL(
     Y = as.numeric(InstEval$y),
     X = x,
@@ -51,7 +50,6 @@ saFIT <- saPL(
     MODEL = "ordprobit",
     VERBOSE = 1
   )
-tictoc::toc()
 ```
 
 ```{r plot}

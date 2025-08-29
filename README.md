@@ -1,4 +1,3 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # SPL
@@ -21,62 +20,45 @@ stochastic pairise likelihood.
 
 You can install the development version of SPL via
 
-``` r
-devtools::install_github("giuseppealfonzetti/SPL")
-```
+    devtools::install_github("giuseppealfonzetti/SPL")
 
-## Example
+## Example Ordinal
 
-``` r
-library(SPL)
+    library(SPL)
 
-data(InstEval, package = "lme4")
-N <- nrow(InstEval); R <- length(unique(InstEval$s)); C <- length(unique(InstEval$d))
-N; R; C;
-#> [1] 73421
-#> [1] 2972
-#> [1] 1128
+    data(InstEval, package = "lme4")
+    N <- nrow(InstEval); R <- length(unique(InstEval$s)); C <- length(unique(InstEval$d))
+    N; R; C;
+    #> [1] 73421
+    #> [1] 2972
+    #> [1] 1128
 
-mod.polr <- MASS::polr(
-    factor(y) ~ studage + lectage + service + dept,
-    method = "probit",
-    data = InstEval
-  )
-y <- InstEval$y
-x <- model.matrix(mod.polr)[, -1]
-init <- c(mod.polr$zeta, mod.polr$coefficients, 0.25, 0.25)
+    x <- model.matrix(formula("y ~ studage + lectage + service + dept"), data=InstEval)[, -1]
 
-tictoc::tic()
-saFIT <- saPL(
-    Y = as.numeric(y),
-    X = x,
-    F1 = InstEval$s,
-    F2 = InstEval$d,
-    START = init,
-    MODEL = "ordprobit",
-    VERBOSE = 2
-  )
-#> Pairs F1: 1213154 , Pairs F2: 5886370 
-#> Starting...
-#> Updates per cycle: 24473, pairs per dimension: 8
-#> Iter: 10000
-#> Iter: 20000
-#> End of cycle: 0| mean abs theta pdiff from prev cycle: 0.347651
-#> Iter: 30000
-#> Iter: 40000
-#> End of cycle: 1| mean abs theta pdiff from prev cycle: 0.0587675
-#> Burn-in ended
-#> Iter: 50000
-#> Iter: 60000
-#> Iter: 70000
-#> End of cycle: 2| mean abs theta pdiff from prev cycle: 0.0146225
-#> Ended
-tictoc::toc()
-#> 24.621 sec elapsed
-```
+    saFIT <- saPL(
+        Y = as.numeric(InstEval$y),
+        X = x,
+        F1 = InstEval$s,
+        F2 = InstEval$d,
+        MODEL = "ordprobit",
+        VERBOSE = 1
+      )
+    #> Pairs F1: 1213154 , Pairs F2: 5886370 
+    #> Starting...
+    #> Updates per cycle: 7342, pairs per dimension: 16
+    #> End of cycle: 0| max abs theta pdiff from prev cycle: inf
+    #> End of cycle: 1| max abs theta pdiff from prev cycle: 0.363935
+    #> End of cycle: 2| max abs theta pdiff from prev cycle: 0.471545
+    #> End of cycle: 3| max abs theta pdiff from prev cycle: 0.204541
+    #> End of cycle: 4| max abs theta pdiff from prev cycle: 0.0747992
+    #> End of cycle: 5| max abs theta pdiff from prev cycle: 0.065153
+    #> End of cycle: 6| max abs theta pdiff from prev cycle: 0.149422
+    #> End of cycle: 7| max abs theta pdiff from prev cycle: 0.227528
+    #> Burn-in ended
+    #> End of cycle: 8| max abs theta pdiff from prev cycle: 0.0150302
+    #> End of cycle: 9| max abs theta pdiff from prev cycle: 0.0232606
+    #> Ended
 
-``` r
-plot_sa_traj(saFIT)
-```
+    plot_sa_traj(saFIT)
 
 <img src="man/figures/README-plot-1.png" width="100%" />
