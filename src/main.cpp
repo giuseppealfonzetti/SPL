@@ -269,7 +269,7 @@ Rcpp::List cpp_SA2(
     Eigen::VectorXd prev_epoch_thetapdiff = (theta.array()-prev_epoch_theta.array()).abs()/prev_epoch_theta.array().abs();
     double conv_metric = prev_epoch_thetapdiff.maxCoeff();
 
-    if(VERBOSE>0) Rcpp::Rcout << "End of cycle: "<<epoch<< "| max abs theta pdiff from prev cycle: "<< conv_metric<<"\n";
+    if(VERBOSE>0) Rcpp::Rcout << "End of cycle: "<<epoch+1<< "| max abs theta pdiff from prev cycle: "<< conv_metric<<"\n";
 
 
 

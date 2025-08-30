@@ -57,7 +57,7 @@ check_sa_args <- function(LIST, N, R, C) {
 
   # Number of cycles to average
   if (is.null(LIST$MAXAVGE)) {
-    LIST$MAXAVGE <- 2
+    LIST$MAXAVGE <- LIST$MAXE * .2
   }
 
   stopifnot(is.numeric(LIST$MAXAVGE))
@@ -98,9 +98,9 @@ check_sa_args <- function(LIST, N, R, C) {
 
   out$REPLACEMENT <- LIST$REPLACEMENT
 
-  # sampler
+  # conv check
   if (is.null(LIST$CHECK)) {
-    LIST$CHECK <- TRUE
+    LIST$CHECK <- FALSE
   }
   stopifnot(is.logical(LIST$CHECK))
   out$CHECK <- LIST$CHECK

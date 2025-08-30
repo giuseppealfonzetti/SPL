@@ -7,6 +7,8 @@ Authors@R:
 Description: Estimation of cross random effects models for categorical data via stochastic pairwise likelihood.
 License: MIT + file LICENSE
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -24,7 +26,7 @@ Imports:
     pbv,
     dplyr,
     tidyr,
-    ggplot2,
-    patchwork
+    ggplot2
 URL: https://github.com/giuseppealfonzetti/SPL
 BugReports: https://github.com/giuseppealfonzetti/SPL/issues
+VignetteBuilder: knitr

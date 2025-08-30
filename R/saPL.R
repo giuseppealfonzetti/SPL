@@ -29,7 +29,11 @@ saPL <- function(
     )[1:4]
     fe <- rep(0, ncol(X))
 
-    START <- c(thr, fe, 1 / 3, 1 / 3)
+    if (MODEL == "ordprobit") {
+      START <- c(thr, fe, 1 / 3, 1 / 3)
+    } else {
+      START <- c(fe, 1 / 3, 1 / 3)
+    }
   }
 
   MODEL <- match.arg(MODEL)

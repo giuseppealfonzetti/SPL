@@ -2,17 +2,22 @@
 #'
 #' @param FIT Fitted object from [saPL]
 #' @param MARG TRUE for marginal parameterisation. FALSE for conditional
+#' @param PAR Parameter type: "thresholds", "fixed", "variance".
 #'
 #' @importFrom dplyr tibble as_tibble mutate left_join filter
 #' @importFrom tidyr pivot_longer
 #' @importFrom ggplot2 ggplot aes theme theme_minimal labs element_text
 #' @importFrom ggplot2 geom_line geom_point facet_wrap
 #' @importFrom ggplot2 scale_fill_gradient2 guide_colorbar guides unit
-#' @importFrom patchwork plot_layout
 #' @importFrom rlang .data
 #'
 #' @export
-plot_sa_traj <- function(FIT, MARG = FALSE) {
+plot_sa_traj <- function(
+  FIT,
+  PAR = c("variance", "fixed", "thresholds"),
+  MARG = FALSE
+) {
+  PAR <- match.arg(PAR)
   if (MARG) {
     saEstTraj <- Reduce(
       rbind,
@@ -46,7 +51,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
     )) +
     theme_minimal() +
     geom_line() +
-    geom_point(size = 1) +
+    # geom_point(size = 1) +
     labs(
       title = "Thresholds",
       y = "Stochastic estimates",
@@ -67,7 +72,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
     ggplot(aes(x = .data$iter, y = .data$est, group = .data$par)) +
     theme_minimal() +
     geom_line() +
-    geom_point(size = 1) +
+    # geom_point(size = 1) +
     labs(
       title = "Fixed effects",
       y = "Stochastic estimates",
@@ -93,7 +98,7 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
     )) +
     theme_minimal() +
     geom_line() +
-    geom_point(size = 1) +
+    # geom_point(size = 1) +
     labs(
       title = "Variance components",
       y = "Stochastic estimates",
@@ -105,5 +110,12 @@ plot_sa_traj <- function(FIT, MARG = FALSE) {
       axis.text.x = element_text(angle = 45, hjust = 1)
     )
 
-  (gg2 | (gg1 / gg3)) + plot_layout(ncol = 2, widths = c(4, 1))
+  # (gg2 | (gg1 / gg3)) + plot_layout(ncol = 2, widths = c(4, 1))
+  if (PAR == "thresholds") {
+    return(gg1)
+  } else if (PAR == "fixed") {
+    return(gg2)
+  } else if (PAR == "variance") {
+    return(gg3)
+  }
 }

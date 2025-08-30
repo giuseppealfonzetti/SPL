@@ -53,7 +53,10 @@ saFIT <- saPL(
 ```
 
 ```{r plot}
-plot_sa_traj(saFIT)
+plot_sa_traj(saFIT, PAR="variance")
+plot_sa_traj(saFIT, PAR="fixed")
+plot_sa_traj(saFIT, PAR="thresholds")
+
 ```
 
 

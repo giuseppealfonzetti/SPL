@@ -10,7 +10,7 @@ fullPL(
   F1,
   F2,
   MODEL = c("probit", "logit", "ordprobit"),
-  START,
+  START = NULL,
   VERBOSE = 0
 )
 }

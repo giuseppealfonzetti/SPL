@@ -42,7 +42,7 @@ fullPL <- function(
   F1,
   F2,
   MODEL = c("probit", "logit", "ordprobit"),
-  START,
+  START = NULL,
   VERBOSE = 0
 ) {
   MODEL <- match.arg(MODEL)
@@ -55,6 +55,18 @@ fullPL <- function(
       nrow(list_dict$dict2),
       "\n"
     )
+  }
+  if (is.null(START)) {
+    thr <- qnorm(
+      cumsum(table(Y)) / sum(table(Y))
+    )[1:4]
+    fe <- rep(0, ncol(X))
+
+    if (MODEL == "ordprobit") {
+      START <- c(thr, fe, 1 / 3, 1 / 3)
+    } else {
+      START <- c(fe, 1 / 3, 1 / 3)
+    }
   }
   fit <- optimx::optimx(
     START,

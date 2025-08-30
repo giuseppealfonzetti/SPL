@@ -1,0 +1,69 @@
+---
+title: "binary-data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{binary-data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(SPL)
+data(salamander, package = "glmm")
+N <- nrow(salamander); R <- length(unique(salamander$Male)); C <- length(unique(salamander$Female))
+N; R; C;
+link <- "probit"
+mod.glm <- glm(Mate ~ Cross - 1, family = binomial(link), data = salamander)
+x <- model.matrix(mod.glm)
+y <- salamander$Mate
+init <- c(mod.glm$coefficients, 0.5, 0.5)
+
+fit.arc <- arcProbit::arcbin.fit(
+  x,
+  y,
+  f1 = salamander$Male,
+  f2 = salamander$Female,
+  obj_glm = mod.glm
+)
+
+tictoc::tic()
+fullFIT <- fullPL(
+    Y = y,
+    X = x,
+    F1 = salamander$Male,
+    F2 = salamander$Female,
+    MODEL = "probit",
+    # START = c(rep(0,length(init)-2), 1/3,1/3)
+)
+tictoc::toc()
+
+marg2cond(as.numeric(fullFIT$fit[1:6]))
+
+tictoc::tic()
+mod.glm <- glm(Mate ~ Cross - 1, family = binomial(link), data = salamander)
+fit.plbin <- arcProbit::plbin.fit(x, y, f1 = salamander$Male, f2 = salamander$Female, gamma = mod.glm$coef)
+tictoc::toc()
+
+
+saFIT <- saPL(
+    Y = y,
+    X = x,
+    F1 = salamander$Male,
+    F2 = salamander$Female,
+    MODEL = "probit",
+    # START = init,
+    CONTROL = list(MAXE=200, CHECK=FALSE, STEP0=1e-2, UPE=100),
+    VERBOSE=2
+  )
+marg2cond(as.numeric(saFIT$avtheta))
+plot_sa_traj(saFIT, PAR="fixed")
+
+fitGLMM <- lme4::glmer(Mate ~ Cross - 1+(1|Male)+(1|Female), data=salamander, family = binomial(link="logit"))
+```

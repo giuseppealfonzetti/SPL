@@ -46,19 +46,27 @@ You can install the development version of SPL via
     #> Pairs F1: 1213154 , Pairs F2: 5886370 
     #> Starting...
     #> Updates per cycle: 7342, pairs per dimension: 16
-    #> End of cycle: 0| max abs theta pdiff from prev cycle: inf
-    #> End of cycle: 1| max abs theta pdiff from prev cycle: 0.363935
-    #> End of cycle: 2| max abs theta pdiff from prev cycle: 0.471545
-    #> End of cycle: 3| max abs theta pdiff from prev cycle: 0.204541
-    #> End of cycle: 4| max abs theta pdiff from prev cycle: 0.0747992
-    #> End of cycle: 5| max abs theta pdiff from prev cycle: 0.065153
-    #> End of cycle: 6| max abs theta pdiff from prev cycle: 0.149422
-    #> End of cycle: 7| max abs theta pdiff from prev cycle: 0.227528
+    #> End of cycle: 1| max abs theta pdiff from prev cycle: inf
+    #> End of cycle: 2| max abs theta pdiff from prev cycle: 0.363935
+    #> End of cycle: 3| max abs theta pdiff from prev cycle: 0.471545
+    #> End of cycle: 4| max abs theta pdiff from prev cycle: 0.204541
+    #> End of cycle: 5| max abs theta pdiff from prev cycle: 0.0747992
+    #> End of cycle: 6| max abs theta pdiff from prev cycle: 0.065153
+    #> End of cycle: 7| max abs theta pdiff from prev cycle: 0.149422
+    #> End of cycle: 8| max abs theta pdiff from prev cycle: 0.227528
     #> Burn-in ended
-    #> End of cycle: 8| max abs theta pdiff from prev cycle: 0.0150302
-    #> End of cycle: 9| max abs theta pdiff from prev cycle: 0.0232606
+    #> End of cycle: 9| max abs theta pdiff from prev cycle: 0.0150302
+    #> End of cycle: 10| max abs theta pdiff from prev cycle: 0.0232606
     #> Ended
 
-    plot_sa_traj(saFIT)
+    plot_sa_traj(saFIT, PAR="variance")
 
 <img src="man/figures/README-plot-1.png" width="100%" />
+
+    plot_sa_traj(saFIT, PAR="fixed")
+
+<img src="man/figures/README-plot-2.png" width="100%" />
+
+    plot_sa_traj(saFIT, PAR="thresholds")
+
+<img src="man/figures/README-plot-3.png" width="100%" />
